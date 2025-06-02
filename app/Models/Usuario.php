@@ -3,8 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Notifications\Notifiable;
+use App\Models\Proyecto;
 
 class Usuario extends Authenticatable implements JWTSubject
 {
@@ -23,33 +24,21 @@ class Usuario extends Authenticatable implements JWTSubject
         'remember_token',
     ];
 
-    /**
-     * Laravel usa "password" por defecto, este método fuerza a usar "clave"
-     */
     public function getAuthPassword()
     {
         return $this->clave;
     }
 
-    /**
-     * Identificador único para el JWT
-     */
     public function getJWTIdentifier()
     {
         return $this->getKey();
     }
 
-    /**
-     * Claims personalizados para el JWT (puede ir vacío)
-     */
     public function getJWTCustomClaims()
     {
         return [];
     }
 
-    /**
-     * Relación con proyectos (si aplica)
-     */
     public function proyectos()
     {
         return $this->hasMany(Proyecto::class, 'created_by');

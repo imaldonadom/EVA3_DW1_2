@@ -3,21 +3,19 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Usuario;
 
 class Proyecto extends Model
 {
     protected $table = 'proyectos';
 
     protected $fillable = [
-        'nombre',
+        'titulo',
         'descripcion',
-        'fecha_inicio',
-        'fecha_fin',
-        'estado',
-        'created_by'
+        'created_by',
     ];
 
-    public function usuario()
+    public function creador()
     {
         return $this->belongsTo(Usuario::class, 'created_by');
     }

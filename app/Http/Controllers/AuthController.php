@@ -20,7 +20,7 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'error' => 'Datos inválidos',
-                'detalles' => $validator->errors()
+                'detalles' => $validator->errors(),
             ], 422);
         }
 
@@ -35,7 +35,26 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'usuario' => $usuario
+            'usuario' => $usuario,
+        ]);
+    }
+
+    public function me()
+    {
+        return response()->json(auth()->user());
+    }
+
+    public function logout()
+    {
+        auth()->logout();
+        return response()->json(['mensaje' => 'Sesión cerrada correctamente']);
+    }
+
+    public function refresh()
+    {
+        return response()->json([
+            'access_token' => auth()->refresh(),
+            'token_type' => 'bearer',
         ]);
     }
 }
