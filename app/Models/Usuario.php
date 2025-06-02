@@ -2,32 +2,56 @@
 
 namespace App\Models;
 
-use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class Usuario extends Authenticatable implements JWTSubject
 {
+    use Notifiable;
+
     protected $table = 'usuarios';
 
-    protected $fillable = ['nombre', 'correo', 'clave'];
+    protected $fillable = [
+        'nombre',
+        'correo',
+        'clave',
+    ];
 
-    protected $hidden = ['clave'];
+    protected $hidden = [
+        'clave',
+        'remember_token',
+    ];
 
-     public function getAuthPassword(){
-        // Return the password for the user
+    /**
+     * Laravel usa "password" por defecto, este método fuerza a usar "clave"
+     */
+    public function getAuthPassword()
+    {
         return $this->clave;
     }
 
-
-    public function getJWTIdentifier() {
+    /**
+     * Identificador único para el JWT
+     */
+    public function getJWTIdentifier()
+    {
         return $this->getKey();
     }
 
-    public function getJWTCustomClaims() {
+    /**
+     * Claims personalizados para el JWT (puede ir vacío)
+     */
+    public function getJWTCustomClaims()
+    {
         return [];
     }
-    
-    public function proyectos() {
+
+    /**
+     * Relación con proyectos (si aplica)
+     */
+    public function proyectos()
+    {
         return $this->hasMany(Proyecto::class, 'created_by');
     }
 }

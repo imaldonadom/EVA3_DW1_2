@@ -6,16 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Proyecto extends Model
 {
-    //
-    Schema::create('proyectos', function (Blueprint $table) {
-        $table->id();
-        $table->string('nombre');
-        $table->date('fecha_inicio');
-        $table->string('estado');
-        $table->string('responsable');
-        $table->decimal('monto', 10, 2);
-        $table->unsignedBigInteger('created_by');
-        $table->foreign('created_by')->references('id')->on('usuarios');
-        $table->timestamps();
-    });
+    protected $table = 'proyectos';
+
+    protected $fillable = [
+        'nombre',
+        'descripcion',
+        'fecha_inicio',
+        'fecha_fin',
+        'estado',
+        'created_by'
+    ];
+
+    public function usuario()
+    {
+        return $this->belongsTo(Usuario::class, 'created_by');
+    }
 }

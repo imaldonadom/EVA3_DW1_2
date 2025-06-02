@@ -34,8 +34,11 @@ class Kernel extends HttpKernel
      *
      * @var array<string, class-string|string>
      */
-    protected $routeMiddleware = [
-        // Otros middleware personalizados
-        // 'verifica.jwt' => \App\Http\Middleware\VerificaJWT::class,
-    ];
+protected $routeMiddleware = [
+    // Otros middleware...
+    'auth' => \App\Http\Middleware\Authenticate::class,
+    'jwt.auth' => \Tymon\JWTAuth\Http\Middleware\Authenticate::class,
+    'jwt.refresh' => \Tymon\JWTAuth\Http\Middleware\RefreshToken::class,
+];
+
 }
