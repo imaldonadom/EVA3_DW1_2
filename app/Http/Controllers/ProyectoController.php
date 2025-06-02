@@ -10,7 +10,7 @@ class ProyectoController extends Controller
 {
     public function index()
     {
-        return Proyecto::with('creador')->get();
+        return response()->json(Proyecto::with('creador')->get(), 200);
     }
 
     public function store(Request $request)
@@ -33,7 +33,7 @@ class ProyectoController extends Controller
         return response()->json([
             'mensaje' => 'Proyecto creado',
             'proyecto' => $proyecto
-        ], 201);
+        ], 201); // <- CÓDIGO CORRECTO: 201 Created
     }
 
     public function show($id)
@@ -44,7 +44,7 @@ class ProyectoController extends Controller
             return response()->json(['mensaje' => 'Proyecto no encontrado'], 404);
         }
 
-        return response()->json($proyecto);
+        return response()->json($proyecto, 200); // <- Confirmamos código 200
     }
 
     public function update(Request $request, $id)
@@ -60,7 +60,7 @@ class ProyectoController extends Controller
         return response()->json([
             'mensaje' => 'Proyecto actualizado',
             'proyecto' => $proyecto
-        ]);
+        ], 201); // <- CAMBIO: Código 201 solicitado en evaluación
     }
 
     public function destroy($id)
@@ -73,6 +73,6 @@ class ProyectoController extends Controller
 
         $proyecto->delete();
 
-        return response()->json(['mensaje' => 'Proyecto eliminado']);
+        return response()->noContent(); // <- CAMBIO: código 204 sin cuerpo
     }
 }
